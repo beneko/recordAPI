@@ -3,7 +3,7 @@
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 
-require 'config.php';
+require '../config.php';
 $result= $crud->getDiscList();
 $num = $result->rowCount();
 

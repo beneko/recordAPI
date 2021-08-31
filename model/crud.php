@@ -30,7 +30,7 @@
                 $result=$this->db->prepare($sql);
                 $result->bindparam(':disc_id', $discId);
                 $result->execute();
-                $details=$result->fetch();
+                $details=$result->fetch(PDO::FETCH_ASSOC);
                 return $details;
             } catch (PDOException $e) {
                 // echo $e->getMessage();
