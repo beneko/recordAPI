@@ -1,5 +1,5 @@
 <?php
-include '../function/functions.php';
+
 // declare regex array
 $regex = [
     'disc_title' => '/^[A-Za-z0-9\s\-_,\.;:()]+$/',
@@ -15,5 +15,6 @@ $inputFiles = [
 if(isset($_POST['submit'])){
     // call valiForm function
     $formError = validForm($regex , $_POST);
-    $fileError = validFile($inputFiles, $_FILES);
+
+    $fileError = sizeof($_FILES)>0 ? validFile($inputFiles, $_FILES) : false ;
 }
