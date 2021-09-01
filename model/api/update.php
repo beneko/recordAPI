@@ -11,6 +11,7 @@ require '../config.php';
 // on récupère les données du post
 $data = json_decode(file_get_contents("php://input"));
 if (
+    !empty($data->disc_id) &&
     !empty($data->disc_title) &&
     !empty($data->disc_year) &&
     !empty($data->disc_label) &&
@@ -19,6 +20,7 @@ if (
     !empty($data->artist_id)
 ) {
     $_POST['submit'] = true;
+    $_POST['disc_id'] = $data->disc_id;
     $_POST['disc_title'] = $data->disc_title;
     $_POST['disc_year'] = $data->disc_year;
     $_POST['disc_label'] = $data->disc_label;
@@ -33,6 +35,7 @@ if (
     if (isset($formError) && sizeof($formError) === 0) {
         // if there is no error
         // declare some variables to take the input values
+        $disc_id = htmlspecialchars($_POST['disc_id']);
         $disc_title = htmlspecialchars($_POST['disc_title']);
         $disc_year = htmlspecialchars($_POST['disc_year']);
         $disc_label = htmlspecialchars($_POST['disc_label']);
@@ -41,13 +44,13 @@ if (
         $artist_id = htmlspecialchars($_POST['artist_id']);
 
         // call addDisc method to add new disc to database
-        $insert = $crud->addDisc($disc_title, $disc_year, $data->disc_picture, $disc_label, $disc_genre, $disc_price, $artist_id);
+        $insert = $crud->updateDisc($disc_id, $disc_title, $disc_year, $data->disc_picture, $disc_label, $disc_genre, $disc_price, $artist_id);
         if ($insert) {
             //on envoie le code 201
             http_response_code(201);
 
             // on averti l'utilisateur
-            echo json_encode(array("message" => "disc added!"));
+            echo json_encode(array("message" => "disc updated!"));
 
         } else {
             // on envoie le code 503
@@ -71,11 +74,12 @@ else{
 
 //test information
 //{
+//    "disc_id" : "29",
 //    "disc_title" : "Fugazi2",
 //    "disc_year" : "1984",
 //    "disc_picture" : "Fugazi.jpeg",
 //    "disc_label" : "EMI",
 //    "disc_genre" : 2,
-//    "disc_price" : "222",
+//    "disc_price" : "111",
 //    "artist_id" : "1"
 //}
