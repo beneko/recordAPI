@@ -6,7 +6,7 @@ header("Content-Type: application/json; charset=UTF-8");
 require '../config.php';
 $result= $crud->getDiscList();
 
-if(sizeof($result)>0) {
+if($result != null) {
 
     // tableau de produits
     $discs = array();
